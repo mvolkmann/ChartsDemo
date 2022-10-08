@@ -3,6 +3,7 @@ import SwiftUI
 struct ContentView: View {
     // TODO: Try getting data from the Census API at
     // TODO: https://www.census.gov/programs-surveys/sbo/technical-documentation/api.html
+    // TODO: Also test use of the Instruments tool to example HTTP traffic.
     var body: some View {
         TabView {
             BarChart().tabItem {
