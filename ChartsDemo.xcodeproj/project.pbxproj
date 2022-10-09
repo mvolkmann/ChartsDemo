@@ -18,7 +18,7 @@
 		1AA21A8E28F33B1D00EEC534 /* us-census-age-sex-2021.csv in Resources */ = {isa = PBXBuildFile; fileRef = 1AA21A8D28F33B1C00EEC534 /* us-census-age-sex-2021.csv */; };
 		1AA21A9028F33E8600EEC534 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA21A8F28F33E8600EEC534 /* ViewModel.swift */; };
 		1AA21A9328F33EE800EEC534 /* AgeStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA21A9228F33EE800EEC534 /* AgeStatistics.swift */; };
-		1AA21A9528F355B800EEC534 /* PieChartSlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA21A9428F355B800EEC534 /* PieChartSlice.swift */; };
+		1AA21A9528F355B800EEC534 /* PieSliceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA21A9428F355B800EEC534 /* PieSliceView.swift */; };
 		1AA21A9728F3561400EEC534 /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA21A9628F3561400EEC534 /* PieChart.swift */; };
 		1AA21A9928F3565A00EEC534 /* ChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA21A9828F3565A00EEC534 /* ChartData.swift */; };
 		1AA21A9C28F356E200EEC534 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA21A9B28F356E200EEC534 /* ColorExtension.swift */; };
@@ -37,7 +37,7 @@
 		1AA21A8D28F33B1C00EEC534 /* us-census-age-sex-2021.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "us-census-age-sex-2021.csv"; sourceTree = "<group>"; };
 		1AA21A8F28F33E8600EEC534 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		1AA21A9228F33EE800EEC534 /* AgeStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeStatistics.swift; sourceTree = "<group>"; };
-		1AA21A9428F355B800EEC534 /* PieChartSlice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartSlice.swift; sourceTree = "<group>"; };
+		1AA21A9428F355B800EEC534 /* PieSliceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieSliceView.swift; sourceTree = "<group>"; };
 		1AA21A9628F3561400EEC534 /* PieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChart.swift; sourceTree = "<group>"; };
 		1AA21A9828F3565A00EEC534 /* ChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartData.swift; sourceTree = "<group>"; };
 		1AA21A9B28F356E200EEC534 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
@@ -56,6 +56,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A713E5728F363DC00AEA66B /* PieChart */ = {
+			isa = PBXGroup;
+			children = (
+				1AA21A9628F3561400EEC534 /* PieChart.swift */,
+				1AA21A9428F355B800EEC534 /* PieSliceView.swift */,
+				1AA21A9D28F357AA00EEC534 /* PieSlice.swift */,
+			);
+			path = PieChart;
+			sourceTree = "<group>";
+		};
 		1A8FD67428F19621002AF972 = {
 			isa = PBXGroup;
 			children = (
@@ -77,11 +87,12 @@
 			isa = PBXGroup;
 			children = (
 				1A8FD68028F19621002AF972 /* ChartsDemoApp.swift */,
+				1A8FD68428F19621002AF972 /* Assets.xcassets */,
 				1AA21A8F28F33E8600EEC534 /* ViewModel.swift */,
 				1AA21A9A28F356D300EEC534 /* Extensions */,
 				1AA21A9128F33EBC00EEC534 /* Models */,
+				1A713E5728F363DC00AEA66B /* PieChart */,
 				1A8FD68E28F197FE002AF972 /* Views */,
-				1A8FD68428F19621002AF972 /* Assets.xcassets */,
 				1A8FD68628F19621002AF972 /* Preview Content */,
 			);
 			path = ChartsDemo;
@@ -98,12 +109,10 @@
 		1A8FD68E28F197FE002AF972 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1A8FD68F28F1980C002AF972 /* BarChartDemo.swift */,
 				1A8FD68228F19621002AF972 /* ContentView.swift */,
+				1A8FD68F28F1980C002AF972 /* BarChartDemo.swift */,
 				1A8FD69128F19820002AF972 /* LineChartDemo.swift */,
 				1A8FD69328F19828002AF972 /* PieChartDemo.swift */,
-				1AA21A9428F355B800EEC534 /* PieChartSlice.swift */,
-				1AA21A9628F3561400EEC534 /* PieChart.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -112,7 +121,6 @@
 			isa = PBXGroup;
 			children = (
 				1AA21A9228F33EE800EEC534 /* AgeStatistics.swift */,
-				1AA21A9D28F357AA00EEC534 /* PieSlice.swift */,
 				1AA21A9828F3565A00EEC534 /* ChartData.swift */,
 			);
 			path = Models;
@@ -212,7 +220,7 @@
 				1A8FD68128F19621002AF972 /* ChartsDemoApp.swift in Sources */,
 				1AA21A9928F3565A00EEC534 /* ChartData.swift in Sources */,
 				1AA21A9028F33E8600EEC534 /* ViewModel.swift in Sources */,
-				1AA21A9528F355B800EEC534 /* PieChartSlice.swift in Sources */,
+				1AA21A9528F355B800EEC534 /* PieSliceView.swift in Sources */,
 				1AA21A9C28F356E200EEC534 /* ColorExtension.swift in Sources */,
 				1A8FD69428F19828002AF972 /* PieChartDemo.swift in Sources */,
 			);

@@ -50,10 +50,9 @@ struct PieChart: View {
                 GeometryReader { geometry in
                     ZStack {
                         ForEach(0 ..< self.data.count, id: \.self) { i in
-                            PieChartSlice(
+                            PieSliceView(
                                 center: CGPoint(
-                                    x: geometry.frame(in: .local)
-                                        .midX,
+                                    x: geometry.frame(in: .local).midX,
                                     y: geometry.frame(in: .local).midY
                                 ),
                                 radius: geometry.frame(in: .local).width / 2,
