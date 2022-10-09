@@ -3,15 +3,13 @@ import SwiftUI
 // This is based on the implementation by Ahmed Mgua described at
 // https://blckbirds.com/post/charts-in-swiftui-part-2-pie-chart/.
 struct PieChart: View {
+    // MARK: - State
+
     @State private var currentValue = ""
     @State private var currentLabel = ""
     @State private var touchLocation: CGPoint = .init(x: -1, y: -1)
 
-    var title: String
-    var data: [ChartData]
-    var separatorColor: Color
-    var sliceColors: [Color] // assigned dynamically if empty
-    var keyColumns: Int
+    // MARK: - Initializer
 
     init(
         title: String,
@@ -40,21 +38,21 @@ struct PieChart: View {
         }
     }
 
+    // MARK: - Properties
+
+    var title: String
+    var data: [ChartData]
+    var separatorColor: Color
+    var sliceColors: [Color] // assigned dynamically if empty
+    var keyColumns: Int
+
     private var key: some View {
-        let rows = Int(ceil(Double(data.count) / Double(keyColumns)))
+        let rowCount = Int(ceil(Double(data.count) / Double(keyColumns)))
         return Grid(alignment: .leading) {
-            ForEach(0 ..< rows, id: \.self) { rowIndex in
+            ForEach(0 ..< rowCount, id: \.self) { rowIndex in
                 GridRow {
                     ForEach(0 ..< keyColumns, id: \.self) { columnIndex in
-                        HStack {
-                            let index = rowIndex * keyColumns + columnIndex
-                            sliceColors[index]
-                                .aspectRatio(contentMode: .fit)
-                                .frame(height: 20)
-                            Text(data[index].label)
-                                .font(.caption)
-                                .bold()
-                        }
+                        keyItem(index: rowIndex + columnIndex * rowCount)
                     }
                 }
             }
@@ -157,7 +155,9 @@ struct PieChart: View {
         .padding()
     }
 
-    func angleAtTouchLocation(
+    // MARK: - Methods
+
+    private func angleAtTouchLocation(
         inPie pieSize: CGRect,
         touchLocation: CGPoint
     ) -> Double? {
@@ -173,7 +173,20 @@ struct PieChart: View {
             angleAtTouchLocation + 360
     }
 
-    func normalizedValue(index: Int, data: [ChartData]) -> Double {
+    private func keyItem(index: Int) -> some View {
+        HStack {
+            if index < sliceColors.count, index < data.count {
+                sliceColors[index]
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 20)
+                Text(data[index].label)
+                    .font(.caption)
+                    .bold()
+            }
+        }
+    }
+
+    private func normalizedValue(index: Int, data: [ChartData]) -> Double {
         var total = 0.0
         data.forEach { data in
             total += data.value
@@ -181,7 +194,23 @@ struct PieChart: View {
         return data[index].value / total
     }
 
-    func updateCurrentValue(inPie pieSize: CGRect) {
+    private func resetValues() {
+        currentValue = ""
+        currentLabel = ""
+        touchLocation = .init(x: -1, y: -1)
+    }
+
+    private func sliceIsTouched(index: Int, inPie pieSize: CGRect) -> Bool {
+        guard let angle = angleAtTouchLocation(
+            inPie: pieSize,
+            touchLocation: touchLocation
+        ) else { return false }
+        return pieSlices
+            .firstIndex(where: { $0.startDegree < angle && $0.endDegree > angle
+            }) == index
+    }
+
+    private func updateCurrentValue(inPie pieSize: CGRect) {
         guard let angle = angleAtTouchLocation(
             inPie: pieSize,
             touchLocation: touchLocation
@@ -192,21 +221,5 @@ struct PieChart: View {
 
         currentLabel = data[currentIndex].label
         currentValue = "\(data[currentIndex].value)"
-    }
-
-    func resetValues() {
-        currentValue = ""
-        currentLabel = ""
-        touchLocation = .init(x: -1, y: -1)
-    }
-
-    func sliceIsTouched(index: Int, inPie pieSize: CGRect) -> Bool {
-        guard let angle = angleAtTouchLocation(
-            inPie: pieSize,
-            touchLocation: touchLocation
-        ) else { return false }
-        return pieSlices
-            .firstIndex(where: { $0.startDegree < angle && $0.endDegree > angle
-            }) == index
     }
 }
