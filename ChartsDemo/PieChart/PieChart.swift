@@ -77,6 +77,35 @@ struct PieChart: View {
         return slices
     }
 
+    private var touchOverlay: some View {
+        VStack {
+            if !currentLabel.isEmpty {
+                Text(currentLabel)
+                    .font(.caption)
+                    .bold()
+                    .foregroundColor(.black)
+                    .padding(10)
+                    .background(
+                        RoundedRectangle(cornerRadius: 5)
+                            .foregroundColor(.white).shadow(radius: 3)
+                    )
+            }
+
+            if !currentValue.isEmpty {
+                Text("\(currentValue)")
+                    .font(.caption)
+                    .bold()
+                    .foregroundColor(.black)
+                    .padding(5)
+                    .background(
+                        RoundedRectangle(cornerRadius: 5)
+                            .foregroundColor(.white).shadow(radius: 3)
+                    )
+            }
+        }
+        .padding()
+    }
+
     var body: some View {
         VStack {
             Text(title).bold().font(.largeTitle)
@@ -102,32 +131,7 @@ struct PieChart: View {
                 }
                 .aspectRatio(contentMode: .fit)
 
-                VStack {
-                    if !currentLabel.isEmpty {
-                        Text(currentLabel)
-                            .font(.caption)
-                            .bold()
-                            .foregroundColor(.black)
-                            .padding(10)
-                            .background(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .foregroundColor(.white).shadow(radius: 3)
-                            )
-                    }
-
-                    if !currentValue.isEmpty {
-                        Text("\(currentValue)")
-                            .font(.caption)
-                            .bold()
-                            .foregroundColor(.black)
-                            .padding(5)
-                            .background(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .foregroundColor(.white).shadow(radius: 3)
-                            )
-                    }
-                }
-                .padding()
+                touchOverlay
             }
 
             key
