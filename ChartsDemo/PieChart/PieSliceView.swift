@@ -24,7 +24,7 @@ struct PieSliceView: View {
     }
 
     var body: some View {
-        let scale = isTouched ? 1.05 : 1
+        let scale = isTouched ? 1.08 : 1
         path
             .fill(backgroundColor)
             .overlay(path.stroke(separatorColor, lineWidth: 2))
