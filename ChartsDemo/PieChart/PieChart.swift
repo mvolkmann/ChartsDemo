@@ -28,10 +28,7 @@ struct PieChart: View {
             return
         }
 
-        sliceColors = []
-        for _ in 0 ..< data.count {
-            sliceColors.append(randomColor())
-        }
+        sliceColors = Self.randomColors(count: data.count)
     }
 
     // MARK: - Properties
@@ -204,15 +201,19 @@ struct PieChart: View {
         }
     }
 
-    private func randomColor() -> Color {
+    private static func randomColor() -> Color {
         Color(
-            red: randomNumber(),
-            green: randomNumber(),
-            blue: randomNumber()
+            red: Self.randomNumber(),
+            green: Self.randomNumber(),
+            blue: Self.randomNumber()
         )
     }
 
-    private func randomNumber() -> Double {
+    private static func randomColors(count: Int) -> [Color] {
+        (0 ..< count).map { _ in Self.randomColor() }
+    }
+
+    private static func randomNumber() -> Double {
         Double.random(in: 0.2 ... 0.9)
     }
 
