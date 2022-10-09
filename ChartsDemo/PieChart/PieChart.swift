@@ -1,14 +1,16 @@
 import SwiftUI
 
 struct PieChart: View {
+    @State private var currentValue = ""
+    @State private var currentLabel = ""
+    @State private var touchLocation: CGPoint = .init(x: -1, y: -1)
+
     var title: String
     var data: [ChartData]
     var separatorColor: Color
     var accentColors: [Color]
 
-    @State private var currentValue = ""
-    @State private var currentLabel = ""
-    @State private var touchLocation: CGPoint = .init(x: -1, y: -1)
+    private static let columns = [GridItem(.flexible()), GridItem(.flexible())]
 
     init(title: String, data: [ChartData], separatorColor: Color) {
         self.title = title
@@ -85,6 +87,7 @@ struct PieChart: View {
                     )
                 }
                 .aspectRatio(contentMode: .fit)
+
                 VStack {
                     if !currentLabel.isEmpty {
                         Text(currentLabel)
@@ -112,17 +115,29 @@ struct PieChart: View {
                 }
                 .padding()
             }
-            VStack(alignment: .leading) {
-                ForEach(0 ..< data.count, id: \.self) { i in
-                    HStack {
-                        accentColors[i]
-                            .aspectRatio(contentMode: .fit)
-                            .padding(10)
-                        Text(data[i].label)
-                            .font(.caption)
-                            .bold()
+
+            // VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Spacer()
+                LazyVGrid(
+                    columns: Self.columns,
+                    alignment: .leading,
+                    spacing: 10
+                ) {
+                    ForEach(0 ..< data.count, id: \.self) { i in
+                        HStack {
+                            accentColors[i]
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 20)
+                            Text(data[i].label)
+                                .font(.caption)
+                                .bold()
+                        }
                     }
                 }
+                .padding(10)
+                .border(.gray)
+                Spacer()
             }
         }
         .padding()
