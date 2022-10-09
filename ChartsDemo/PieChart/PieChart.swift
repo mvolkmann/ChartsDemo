@@ -11,18 +11,19 @@ struct PieChart: View {
     var data: [ChartData]
     var separatorColor: Color
     var sliceColors: [Color] // assigned dynamically if empty
-
-    private static let columns = [GridItem(.flexible()), GridItem(.flexible())]
+    var keyColumns: Int
 
     init(
         title: String,
         data: [ChartData],
         separatorColor: Color = Color(UIColor.systemBackground),
-        customSliceColors: [Color] = []
+        customSliceColors: [Color] = [],
+        keyColumns: Int = 3
     ) {
         self.title = title
         self.data = data
         self.separatorColor = separatorColor
+        self.keyColumns = keyColumns
 
         guard customSliceColors.isEmpty else {
             sliceColors = customSliceColors
@@ -39,7 +40,30 @@ struct PieChart: View {
         }
     }
 
-    var pieSlices: [PieSlice] {
+    private var key: some View {
+        let rows = Int(ceil(Double(data.count) / Double(keyColumns)))
+        return Grid(alignment: .leading) {
+            ForEach(0 ..< rows, id: \.self) { rowIndex in
+                GridRow {
+                    ForEach(0 ..< keyColumns, id: \.self) { columnIndex in
+                        HStack {
+                            let index = rowIndex * keyColumns + columnIndex
+                            sliceColors[index]
+                                .aspectRatio(contentMode: .fit)
+                                .frame(height: 20)
+                            Text(data[index].label)
+                                .font(.caption)
+                                .bold()
+                        }
+                    }
+                }
+            }
+        }
+        .padding(10)
+        .border(.gray)
+    }
+
+    private var pieSlices: [PieSlice] {
         var slices = [PieSlice]()
         data.enumerated().forEach { index, _ in
             let value = normalizedValue(index: index, data: self.data)
@@ -128,28 +152,7 @@ struct PieChart: View {
                 .padding()
             }
 
-            HStack {
-                Spacer()
-                LazyVGrid(
-                    columns: Self.columns,
-                    alignment: .leading,
-                    spacing: 10
-                ) {
-                    ForEach(0 ..< data.count, id: \.self) { i in
-                        HStack {
-                            sliceColors[i]
-                                .aspectRatio(contentMode: .fit)
-                                .frame(height: 20)
-                            Text(data[i].label)
-                                .font(.caption)
-                                .bold()
-                        }
-                    }
-                }
-                .padding(10)
-                .border(.gray)
-                Spacer()
-            }
+            key
         }
         .padding()
     }
