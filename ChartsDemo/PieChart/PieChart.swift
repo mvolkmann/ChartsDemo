@@ -57,19 +57,18 @@ struct PieChart: View {
     private var pieSlices: [PieSlice] {
         var slices = [PieSlice]()
         let total = data.reduce(0.0) { $0 + $1.value }
+        var startDegrees = 0.0
+
         for index in 0 ..< data.count {
             let percent = data[index].value / total
-            let degrees = 360 * percent
-            if slices.isEmpty {
-                slices.append((.init(startDegrees: 0, endDegrees: degrees)))
-            } else {
-                let startDegrees = slices.last!.endDegrees
-                slices.append(.init(
-                    startDegrees: startDegrees,
-                    endDegrees: startDegrees + degrees
-                ))
-            }
+            let endDegrees = startDegrees + 360 * percent
+            slices.append(PieSlice(
+                startDegrees: startDegrees,
+                endDegrees: endDegrees
+            ))
+            startDegrees = endDegrees
         }
+
         return slices
     }
 
