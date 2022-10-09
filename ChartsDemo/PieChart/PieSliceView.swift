@@ -6,7 +6,7 @@ struct PieSliceView: View {
     var startDegree: Double
     var endDegree: Double
     var isTouched: Bool
-    var accentColor: Color
+    var backgroundColor: Color
     var separatorColor: Color
 
     var path: Path {
@@ -26,7 +26,7 @@ struct PieSliceView: View {
     var body: some View {
         let scale = isTouched ? 1.05 : 1
         path
-            .fill(accentColor)
+            .fill(backgroundColor)
             .overlay(path.stroke(separatorColor, lineWidth: 2))
             .scaleEffect(scale)
             .animation(.spring(), value: scale)

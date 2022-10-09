@@ -1,5 +1,7 @@
 import SwiftUI
 
+// This is based on the implementation by Ahmed Mgua described at
+// https://blckbirds.com/post/charts-in-swiftui-part-2-pie-chart/.
 struct PieChart: View {
     @State private var currentValue = ""
     @State private var currentLabel = ""
@@ -8,18 +10,28 @@ struct PieChart: View {
     var title: String
     var data: [ChartData]
     var separatorColor: Color
-    var accentColors: [Color]
+    var sliceColors: [Color] // assigned dynamically if empty
 
     private static let columns = [GridItem(.flexible()), GridItem(.flexible())]
 
-    init(title: String, data: [ChartData], separatorColor: Color) {
+    init(
+        title: String,
+        data: [ChartData],
+        separatorColor: Color = Color(UIColor.systemBackground),
+        customSliceColors: [Color] = []
+    ) {
         self.title = title
         self.data = data
         self.separatorColor = separatorColor
 
-        accentColors = []
+        guard customSliceColors.isEmpty else {
+            sliceColors = customSliceColors
+            return
+        }
+
+        sliceColors = []
         for _ in 0 ..< data.count {
-            accentColors.append(Color(
+            sliceColors.append(Color(
                 red: Double.random(in: 0.2 ... 0.9),
                 green: Double.random(in: 0.2 ... 0.9),
                 blue: Double.random(in: 0.2 ... 0.9)
@@ -64,7 +76,7 @@ struct PieChart: View {
                                     index: i,
                                     inPie: geometry.frame(in: .local)
                                 ),
-                                accentColor: accentColors[i],
+                                backgroundColor: sliceColors[i],
                                 separatorColor: separatorColor
                             )
                         }
@@ -116,7 +128,6 @@ struct PieChart: View {
                 .padding()
             }
 
-            // VStack(alignment: .leading, spacing: 10) {
             HStack {
                 Spacer()
                 LazyVGrid(
@@ -126,7 +137,7 @@ struct PieChart: View {
                 ) {
                     ForEach(0 ..< data.count, id: \.self) { i in
                         HStack {
-                            accentColors[i]
+                            sliceColors[i]
                                 .aspectRatio(contentMode: .fit)
                                 .frame(height: 20)
                             Text(data[i].label)
