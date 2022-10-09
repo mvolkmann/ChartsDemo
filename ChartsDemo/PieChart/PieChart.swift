@@ -79,46 +79,26 @@ struct PieChart: View {
 
     var body: some View {
         VStack {
-            Text(title)
-                .bold()
-                .font(.largeTitle)
+            Text(title).bold().font(.largeTitle)
             ZStack {
                 GeometryReader { geometry in
-                    ZStack {
-                        ForEach(0 ..< self.data.count, id: \.self) { i in
-                            PieSliceView(
-                                center: CGPoint(
-                                    x: geometry.frame(in: .local).midX,
-                                    y: geometry.frame(in: .local).midY
-                                ),
-                                radius: geometry.frame(in: .local).width / 2,
-                                startDegree: pieSlices[i].startDegree,
-                                endDegree: pieSlices[i].endDegree,
-                                isTouched: sliceIsTouched(
-                                    index: i,
-                                    inPie: geometry.frame(in: .local)
-                                ),
-                                backgroundColor: sliceColors[i],
-                                separatorColor: separatorColor
-                            )
-                        }
-                    }
-                    .gesture(
-                        DragGesture(minimumDistance: 0)
-                            .onChanged { position in
-                                let pieSize = geometry.frame(in: .local)
-                                touchLocation = position.location
-                                updateCurrentValue(inPie: pieSize)
-                            }
-                            .onEnded { _ in
-                                DispatchQueue.main
-                                    .asyncAfter(deadline: .now() + 1) {
-                                        withAnimation(Animation.easeOut) {
-                                            resetValues()
+                    pieSliceViews(geometry: geometry)
+                        .gesture(
+                            DragGesture(minimumDistance: 0)
+                                .onChanged { position in
+                                    let pieSize = geometry.frame(in: .local)
+                                    touchLocation = position.location
+                                    updateCurrentValue(inPie: pieSize)
+                                }
+                                .onEnded { _ in
+                                    DispatchQueue.main
+                                        .asyncAfter(deadline: .now() + 1) {
+                                            withAnimation(Animation.easeOut) {
+                                                resetValues()
+                                            }
                                         }
-                                    }
-                            }
-                    )
+                                }
+                        )
                 }
                 .aspectRatio(contentMode: .fit)
 
@@ -192,6 +172,26 @@ struct PieChart: View {
             total += data.value
         }
         return data[index].value / total
+    }
+
+    private func pieSliceViews(geometry: GeometryProxy) -> some View {
+        ForEach(0 ..< data.count, id: \.self) { i in
+            PieSliceView(
+                center: CGPoint(
+                    x: geometry.frame(in: .local).midX,
+                    y: geometry.frame(in: .local).midY
+                ),
+                radius: geometry.frame(in: .local).width / 2,
+                startDegree: pieSlices[i].startDegree,
+                endDegree: pieSlices[i].endDegree,
+                isTouched: sliceIsTouched(
+                    index: i,
+                    inPie: geometry.frame(in: .local)
+                ),
+                backgroundColor: sliceColors[i],
+                separatorColor: separatorColor
+            )
+        }
     }
 
     private func resetValues() {
