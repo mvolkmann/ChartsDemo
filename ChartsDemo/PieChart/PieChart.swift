@@ -74,31 +74,16 @@ struct PieChart: View {
 
     private var touchOverlay: some View {
         VStack {
-            if !touchLabel.isEmpty {
-                Text(touchLabel)
-                    .font(.caption)
-                    .bold()
-                    .foregroundColor(.black)
-                    .padding(10)
-                    .background(
-                        RoundedRectangle(cornerRadius: 5)
-                            .foregroundColor(.white).shadow(radius: 3)
-                    )
-            }
-
-            if !touchValue.isEmpty {
-                Text("\(touchValue)")
-                    .font(.caption)
-                    .bold()
-                    .foregroundColor(.black)
-                    .padding(5)
-                    .background(
-                        RoundedRectangle(cornerRadius: 5)
-                            .foregroundColor(.white).shadow(radius: 3)
-                    )
-            }
+            Text(touchLabel).bold()
+            Text("\(touchValue)")
         }
-        .padding()
+        .font(.callout)
+        .padding(5)
+        .background(
+            RoundedRectangle(cornerRadius: 5)
+                .fill(.white)
+                .shadow(radius: 5)
+        )
     }
 
     var body: some View {
@@ -126,7 +111,9 @@ struct PieChart: View {
                 }
                 .aspectRatio(contentMode: .fit)
 
-                touchOverlay
+                if !touchLabel.isEmpty, !touchValue.isEmpty {
+                    touchOverlay
+                }
             }
 
             key
