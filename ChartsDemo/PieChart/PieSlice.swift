@@ -1,6 +1,6 @@
 import Foundation
 
 struct PieSlice {
-    let startDegree: Double
-    let endDegree: Double
+    let startDegrees: Double
+    let endDegrees: Double
 }

@@ -56,14 +56,17 @@ struct PieChart: View {
 
     private var pieSlices: [PieSlice] {
         var slices = [PieSlice]()
-        data.enumerated().forEach { index, _ in
-            let value = normalizedValue(index: index, data: self.data)
+        let total = data.reduce(0.0) { $0 + $1.value }
+        for index in 0 ..< data.count {
+            let percent = data[index].value / total
+            let degrees = 360 * percent
             if slices.isEmpty {
-                slices.append((.init(startDegree: 0, endDegree: value * 360)))
+                slices.append((.init(startDegrees: 0, endDegrees: degrees)))
             } else {
+                let startDegrees = slices.last!.endDegrees
                 slices.append(.init(
-                    startDegree: slices.last!.endDegree,
-                    endDegree: value * 360 + slices.last!.endDegree
+                    startDegrees: startDegrees,
+                    endDegrees: startDegrees + degrees
                 ))
             }
         }
@@ -156,7 +159,7 @@ struct PieChart: View {
         ) else { return false }
 
         return pieSlices.firstIndex(
-            where: { $0.startDegree < angle && $0.endDegree > angle }
+            where: { $0.startDegrees < angle && $0.endDegrees > angle }
         ) == index
     }
 
@@ -173,14 +176,6 @@ struct PieChart: View {
         }
     }
 
-    private func normalizedValue(index: Int, data: [ChartData]) -> Double {
-        var total = 0.0
-        data.forEach { data in
-            total += data.value
-        }
-        return data[index].value / total
-    }
-
     private func pieSliceViews(geometry: GeometryProxy) -> some View {
         ForEach(0 ..< data.count, id: \.self) { i in
             PieSliceView(
@@ -189,8 +184,8 @@ struct PieChart: View {
                     y: geometry.frame(in: .local).midY
                 ),
                 radius: geometry.frame(in: .local).width / 2,
-                startDegree: pieSlices[i].startDegree,
-                endDegree: pieSlices[i].endDegree,
+                startDegree: pieSlices[i].startDegrees,
+                endDegree: pieSlices[i].endDegrees,
                 isTouched: isSliceTouched(
                     index: i,
                     inPie: geometry.frame(in: .local)
@@ -230,7 +225,7 @@ struct PieChart: View {
         ) else { return }
 
         guard let index = pieSlices.firstIndex(
-            where: { $0.startDegree <= angle && angle <= $0.endDegree
+            where: { $0.startDegrees <= angle && angle <= $0.endDegrees
             }
         ) else { return }
 
