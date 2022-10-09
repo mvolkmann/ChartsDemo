@@ -16,6 +16,8 @@
 		1A8FD69428F19828002AF972 /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8FD69328F19828002AF972 /* PieChart.swift */; };
 		1AA21A8C28F33A9D00EEC534 /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = 1AA21A8B28F33A9D00EEC534 /* SwiftCSV */; };
 		1AA21A8E28F33B1D00EEC534 /* us-census-age-sex-2021.csv in Resources */ = {isa = PBXBuildFile; fileRef = 1AA21A8D28F33B1C00EEC534 /* us-census-age-sex-2021.csv */; };
+		1AA21A9028F33E8600EEC534 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA21A8F28F33E8600EEC534 /* ViewModel.swift */; };
+		1AA21A9328F33EE800EEC534 /* AgeStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA21A9228F33EE800EEC534 /* AgeStatistics.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		1A8FD69128F19820002AF972 /* LineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChart.swift; sourceTree = "<group>"; };
 		1A8FD69328F19828002AF972 /* PieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChart.swift; sourceTree = "<group>"; };
 		1AA21A8D28F33B1C00EEC534 /* us-census-age-sex-2021.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "us-census-age-sex-2021.csv"; sourceTree = "<group>"; };
+		1AA21A8F28F33E8600EEC534 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		1AA21A9228F33EE800EEC534 /* AgeStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeStatistics.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +67,8 @@
 			isa = PBXGroup;
 			children = (
 				1A8FD68028F19621002AF972 /* ChartsDemoApp.swift */,
+				1AA21A8F28F33E8600EEC534 /* ViewModel.swift */,
+				1AA21A9128F33EBC00EEC534 /* Models */,
 				1A8FD68E28F197FE002AF972 /* Views */,
 				1A8FD68428F19621002AF972 /* Assets.xcassets */,
 				1A8FD68628F19621002AF972 /* Preview Content */,
@@ -87,6 +93,14 @@
 				1A8FD69328F19828002AF972 /* PieChart.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		1AA21A9128F33EBC00EEC534 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1AA21A9228F33EE800EEC534 /* AgeStatistics.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -168,8 +182,10 @@
 			files = (
 				1A8FD69228F19820002AF972 /* LineChart.swift in Sources */,
 				1A8FD68328F19621002AF972 /* ContentView.swift in Sources */,
+				1AA21A9328F33EE800EEC534 /* AgeStatistics.swift in Sources */,
 				1A8FD69028F1980C002AF972 /* BarChart.swift in Sources */,
 				1A8FD68128F19621002AF972 /* ChartsDemoApp.swift in Sources */,
+				1AA21A9028F33E8600EEC534 /* ViewModel.swift in Sources */,
 				1A8FD69428F19828002AF972 /* PieChart.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
