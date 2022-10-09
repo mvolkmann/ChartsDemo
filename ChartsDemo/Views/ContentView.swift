@@ -2,20 +2,24 @@ import SwiftCSV
 import SwiftUI
 
 struct ContentView: View {
-    // TODO: Try getting data from the Census API at
-    // TODO: https://www.census.gov/data/developers/data-sets/census-microdata-api.html
-    // TODO: Also test use of the Instruments tool to example HTTP traffic.
+    @State private var selectedTab = "pie"
+
     var body: some View {
-        TabView {
-            BarChart().tabItem {
+        TabView(selection: $selectedTab) {
+            BarChartDemo().tabItem {
                 Label("Bar Chart", systemImage: "chart.bar")
             }
-            LineChart().tabItem {
+            .tag("bar")
+
+            LineChartDemo().tabItem {
                 Label("Line Chart", systemImage: "chart.line.uptrend.xyaxis")
             }
-            PieChart().tabItem {
+            .tag("line")
+
+            PieChartDemo().tabItem {
                 Label("Pie Chart", systemImage: "chart.pie")
             }
+            .tag("pie")
         }
     }
 }

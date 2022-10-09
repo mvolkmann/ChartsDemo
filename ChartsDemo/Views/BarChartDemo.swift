@@ -1,7 +1,7 @@
 import Charts
 import SwiftUI
 
-struct BarChart: View {
+struct BarChartDemo: View {
     private let vm = ViewModel.shared
 
     var body: some View {
