@@ -1,13 +1,19 @@
+import Charts
 import SwiftUI
 
 struct LineChart: View {
-    var body: some View {
-        Text("Line Chart")
-    }
-}
+    private let vm = ViewModel.shared
 
-struct LineChart_Previews: PreviewProvider {
-    static var previews: some View {
-        LineChart()
+    var body: some View {
+        Chart {
+            ForEach(vm.statistics) { row in
+                if row.category != "All" {
+                    LineMark(
+                        x: .value("Age", row.category),
+                        y: .value("Total", row.total)
+                    )
+                }
+            }
+        }
     }
 }
