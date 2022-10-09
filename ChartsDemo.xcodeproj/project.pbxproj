@@ -14,6 +14,8 @@
 		1A8FD69028F1980C002AF972 /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8FD68F28F1980C002AF972 /* BarChart.swift */; };
 		1A8FD69228F19820002AF972 /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8FD69128F19820002AF972 /* LineChart.swift */; };
 		1A8FD69428F19828002AF972 /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8FD69328F19828002AF972 /* PieChart.swift */; };
+		1AA21A8C28F33A9D00EEC534 /* SwiftCSV in Frameworks */ = {isa = PBXBuildFile; productRef = 1AA21A8B28F33A9D00EEC534 /* SwiftCSV */; };
+		1AA21A8E28F33B1D00EEC534 /* us-census-age-sex-2021.csv in Resources */ = {isa = PBXBuildFile; fileRef = 1AA21A8D28F33B1C00EEC534 /* us-census-age-sex-2021.csv */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +27,7 @@
 		1A8FD68F28F1980C002AF972 /* BarChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
 		1A8FD69128F19820002AF972 /* LineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChart.swift; sourceTree = "<group>"; };
 		1A8FD69328F19828002AF972 /* PieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChart.swift; sourceTree = "<group>"; };
+		1AA21A8D28F33B1C00EEC534 /* us-census-age-sex-2021.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "us-census-age-sex-2021.csv"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AA21A8C28F33A9D00EEC534 /* SwiftCSV in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,6 +45,7 @@
 		1A8FD67428F19621002AF972 = {
 			isa = PBXGroup;
 			children = (
+				1AA21A8D28F33B1C00EEC534 /* us-census-age-sex-2021.csv */,
 				1A8FD67F28F19621002AF972 /* ChartsDemo */,
 				1A8FD67E28F19621002AF972 /* Products */,
 			);
@@ -100,6 +105,9 @@
 			dependencies = (
 			);
 			name = ChartsDemo;
+			packageProductDependencies = (
+				1AA21A8B28F33A9D00EEC534 /* SwiftCSV */,
+			);
 			productName = ChartsDemo;
 			productReference = 1A8FD67D28F19621002AF972 /* ChartsDemo.app */;
 			productType = "com.apple.product-type.application";
@@ -128,6 +136,9 @@
 				Base,
 			);
 			mainGroup = 1A8FD67428F19621002AF972;
+			packageReferences = (
+				1AA21A8A28F33A9D00EEC534 /* XCRemoteSwiftPackageReference "SwiftCSV" */,
+			);
 			productRefGroup = 1A8FD67E28F19621002AF972 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -142,6 +153,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AA21A8E28F33B1D00EEC534 /* us-census-age-sex-2021.csv in Resources */,
 				1A8FD68828F19621002AF972 /* Preview Assets.xcassets in Resources */,
 				1A8FD68528F19621002AF972 /* Assets.xcassets in Resources */,
 			);
@@ -359,6 +371,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1AA21A8A28F33A9D00EEC534 /* XCRemoteSwiftPackageReference "SwiftCSV" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/swiftcsv/SwiftCSV";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.8.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1AA21A8B28F33A9D00EEC534 /* SwiftCSV */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1AA21A8A28F33A9D00EEC534 /* XCRemoteSwiftPackageReference "SwiftCSV" */;
+			productName = SwiftCSV;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1A8FD67528F19621002AF972 /* Project object */;
 }

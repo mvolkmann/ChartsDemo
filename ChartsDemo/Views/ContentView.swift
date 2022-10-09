@@ -1,4 +1,9 @@
+import SwiftCSV
 import SwiftUI
+
+enum Error: Swift.Error {
+    case fileNotFound(name: String)
+}
 
 struct ContentView: View {
     // TODO: Try getting data from the Census API at
@@ -14,6 +19,21 @@ struct ContentView: View {
             }
             PieChart().tabItem {
                 Label("Pie Chart", systemImage: "chart.pie")
+            }
+        }
+        .task {
+            do {
+                let name = "/us-census-age-sex-2021"
+                guard let url = Bundle.main.url(
+                    forResource: name,
+                    withExtension: "csv"
+                ) else {
+                    throw Error.fileNotFound(name: name)
+                }
+                let csv: CSV = try CSV<Named>(url: url)
+                print("csv =", csv)
+            } catch {
+                print("error parsing CSV file:", error)
             }
         }
     }
