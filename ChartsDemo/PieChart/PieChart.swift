@@ -163,20 +163,21 @@ struct PieChart: View {
     }
 
     private func pieSliceViews(geometry: GeometryProxy) -> some View {
-        ForEach(0 ..< data.count, id: \.self) { i in
+        ForEach(0 ..< data.count, id: \.self) { index in
+            let pieSlice = pieSlices[index]
             PieSliceView(
                 center: CGPoint(
                     x: geometry.frame(in: .local).midX,
                     y: geometry.frame(in: .local).midY
                 ),
                 radius: geometry.frame(in: .local).width / 2,
-                startDegree: pieSlices[i].startDegrees,
-                endDegree: pieSlices[i].endDegrees,
+                startDegree: pieSlice.startDegrees,
+                endDegree: pieSlice.endDegrees,
                 isTouched: isSliceTouched(
-                    index: i,
+                    index: index,
                     inPie: geometry.frame(in: .local)
                 ),
-                backgroundColor: sliceColors[i],
+                backgroundColor: sliceColors[index],
                 separatorColor: separatorColor
             )
         }
