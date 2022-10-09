@@ -211,10 +211,9 @@ struct PieChart: View {
             touch: touchLocation
         ) else { return }
 
-        guard let index = pieSlices.firstIndex(
-            where: { $0.startDegrees <= angle && angle <= $0.endDegrees
-            }
-        ) else { return }
+        guard let index = pieSlices.firstIndex(where: {
+            $0.startDegrees <= angle && angle <= $0.endDegrees
+        }) else { return }
 
         let item = data[index]
         touchLabel = item.label
