@@ -16,12 +16,12 @@ struct PieChart: View {
         data: [ChartData],
         separatorColor: Color = Color(UIColor.systemBackground),
         customSliceColors: [Color] = [],
-        keyColumns: Int = 3
+        legendColumns: Int = 3
     ) {
         self.title = title
         self.data = data
         self.separatorColor = separatorColor
-        self.keyColumns = keyColumns
+        self.legendColumns = legendColumns
 
         guard customSliceColors.isEmpty else {
             sliceColors = customSliceColors
@@ -37,14 +37,14 @@ struct PieChart: View {
     var data: [ChartData]
     var separatorColor: Color
     var sliceColors: [Color] // assigned dynamically if empty
-    var keyColumns: Int
+    var legendColumns: Int
 
-    private var key: some View {
-        let rowCount = Int(ceil(Double(data.count) / Double(keyColumns)))
+    private var legend: some View {
+        let rowCount = Int(ceil(Double(data.count) / Double(legendColumns)))
         return Grid(alignment: .leading) {
             ForEach(0 ..< rowCount, id: \.self) { rowIndex in
                 GridRow {
-                    ForEach(0 ..< keyColumns, id: \.self) { columnIndex in
+                    ForEach(0 ..< legendColumns, id: \.self) { columnIndex in
                         keyItem(index: rowIndex + columnIndex * rowCount)
                     }
                 }
@@ -116,7 +116,7 @@ struct PieChart: View {
                 }
             }
 
-            key
+            legend
         }
         .padding()
     }

@@ -22,7 +22,7 @@ struct PieChartDemo: View {
         PieChart(
             title: "MyPieChart",
             data: sliceData,
-            keyColumns: 3
+            legendColumns: 3
         )
     }
 }

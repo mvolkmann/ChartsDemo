@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A713E5B28F4588100AEA66B /* HeatMapDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A713E5A28F4588100AEA66B /* HeatMapDemo.swift */; };
+		1A713E5D28F4588C00AEA66B /* ScatterPlotDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A713E5C28F4588C00AEA66B /* ScatterPlotDemo.swift */; };
 		1A8FD68128F19621002AF972 /* ChartsDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8FD68028F19621002AF972 /* ChartsDemoApp.swift */; };
 		1A8FD68328F19621002AF972 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8FD68228F19621002AF972 /* ContentView.swift */; };
 		1A8FD68528F19621002AF972 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A8FD68428F19621002AF972 /* Assets.xcassets */; };
@@ -26,6 +28,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1A713E5A28F4588100AEA66B /* HeatMapDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatMapDemo.swift; sourceTree = "<group>"; };
+		1A713E5C28F4588C00AEA66B /* ScatterPlotDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScatterPlotDemo.swift; sourceTree = "<group>"; };
 		1A8FD67D28F19621002AF972 /* ChartsDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChartsDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A8FD68028F19621002AF972 /* ChartsDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsDemoApp.swift; sourceTree = "<group>"; };
 		1A8FD68228F19621002AF972 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -109,10 +113,12 @@
 		1A8FD68E28F197FE002AF972 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1A8FD68228F19621002AF972 /* ContentView.swift */,
 				1A8FD68F28F1980C002AF972 /* BarChartDemo.swift */,
+				1A8FD68228F19621002AF972 /* ContentView.swift */,
+				1A713E5A28F4588100AEA66B /* HeatMapDemo.swift */,
 				1A8FD69128F19820002AF972 /* LineChartDemo.swift */,
 				1A8FD69328F19828002AF972 /* PieChartDemo.swift */,
+				1A713E5C28F4588C00AEA66B /* ScatterPlotDemo.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -212,8 +218,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AA21A9728F3561400EEC534 /* PieChart.swift in Sources */,
+				1A713E5D28F4588C00AEA66B /* ScatterPlotDemo.swift in Sources */,
 				1A8FD69228F19820002AF972 /* LineChartDemo.swift in Sources */,
 				1A8FD68328F19621002AF972 /* ContentView.swift in Sources */,
+				1A713E5B28F4588100AEA66B /* HeatMapDemo.swift in Sources */,
 				1AA21A9E28F357AA00EEC534 /* PieSlice.swift in Sources */,
 				1AA21A9328F33EE800EEC534 /* AgeStatistics.swift in Sources */,
 				1A8FD69028F1980C002AF972 /* BarChartDemo.swift in Sources */,
