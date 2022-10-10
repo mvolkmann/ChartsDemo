@@ -2,7 +2,9 @@ import SwiftUI
 
 struct HeatMapDemo: View {
     var body: some View {
-        Text("Heat Map")
+        VStack {
+            Text("Heat Map")
+        }
     }
 }
 

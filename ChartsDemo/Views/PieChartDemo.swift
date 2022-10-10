@@ -6,12 +6,10 @@ struct PieChartDemo: View {
     private var sliceData: [ChartData] {
         var data: [ChartData] = []
         for row in vm.statistics {
-            if row.category != "All" {
-                data.append(ChartData(
-                    label: row.category,
-                    value: Double(row.total)
-                ))
-            }
+            data.append(ChartData(
+                label: row.category,
+                value: Double(row.total)
+            ))
         }
         return data
     }
