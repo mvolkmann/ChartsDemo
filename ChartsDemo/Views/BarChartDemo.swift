@@ -46,12 +46,9 @@ struct BarChartDemo: View {
                 BarMark(x: category, y: .value("Female", statistic.female))
                     .foregroundStyle(by: .value("Female", "Female"))
 
-                if let data = selectedData,
-                   statistic.category == data.category {
+                if statistic.category == selectedData?.category {
                     RuleMark(x: category)
-                        .annotation(
-                            position: annotationPosition(index)
-                        ) {
+                        .annotation(position: annotationPosition(index)) {
                             annotation
                         }
                         .foregroundStyle(.red)
@@ -74,6 +71,12 @@ struct BarChartDemo: View {
                     Text(value == 0 ? "" : "\(value / delta)M")
                 }
             }
+        }
+
+        .chartPlotStyle { plotArea in
+            plotArea
+                .frame(height: 400)
+                .background(.yellow.opacity(0.2))
         }
 
         // Leave room for RuleMark annotations.
@@ -100,16 +103,16 @@ struct BarChartDemo: View {
     }
 
     private func chartOverlay(proxy: ChartProxy) -> some View {
-        GeometryReader { _ in
+        GeometryReader { geometry in
             Rectangle()
                 .fill(.clear)
                 .contentShape(Rectangle())
                 .gesture(
                     DragGesture()
                         .onChanged { value in
-                            let location = value.location
-                            if let category: String =
-                                proxy.value(atX: location.x) {
+                            let x = value.location.x -
+                                geometry[proxy.plotAreaFrame].origin.x
+                            if let category: String = proxy.value(atX: x) {
                                 selectedData = categoryToDataMap[category]
                             }
                         }

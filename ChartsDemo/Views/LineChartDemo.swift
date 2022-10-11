@@ -102,12 +102,9 @@ struct LineChartDemo: View {
                             .foregroundStyle(Self.femaleColor)
                     }
 
-                    if let data = selectedData,
-                       statistic.category == data.category {
+                    if statistic.category == selectedData?.category {
                         RuleMark(x: category)
-                            .annotation(
-                                position: annotationPosition(index)
-                            ) {
+                            .annotation(position: annotationPosition(index)) {
                                 annotation
                             }
                             .foregroundStyle(.red)
@@ -166,16 +163,16 @@ struct LineChartDemo: View {
     }
 
     private func chartOverlay(proxy: ChartProxy) -> some View {
-        GeometryReader { _ in
+        GeometryReader { geometry in
             Rectangle()
                 .fill(.clear)
                 .contentShape(Rectangle())
                 .gesture(
                     DragGesture()
                         .onChanged { value in
-                            let location = value.location
-                            if let category: String =
-                                proxy.value(atX: location.x) {
+                            let x = value.location.x -
+                                geometry[proxy.plotAreaFrame].origin.x
+                            if let category: String = proxy.value(atX: x) {
                                 selectedData = categoryToDataMap[category]
                             }
                         }
