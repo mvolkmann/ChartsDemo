@@ -10,6 +10,7 @@
 		1A713E5B28F4588100AEA66B /* HeatMapDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A713E5A28F4588100AEA66B /* HeatMapDemo.swift */; };
 		1A713E5D28F4588C00AEA66B /* ScatterPlotDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A713E5C28F4588C00AEA66B /* ScatterPlotDemo.swift */; };
 		1A713E8128F4CD1600AEA66B /* ChartUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A713E8028F4CD1600AEA66B /* ChartUtil.swift */; };
+		1A713E8328F5FC3500AEA66B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 1A713E8228F5FC3500AEA66B /* README.md */; };
 		1A8FD68128F19621002AF972 /* ChartsDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8FD68028F19621002AF972 /* ChartsDemoApp.swift */; };
 		1A8FD68328F19621002AF972 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8FD68228F19621002AF972 /* ContentView.swift */; };
 		1A8FD68528F19621002AF972 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A8FD68428F19621002AF972 /* Assets.xcassets */; };
@@ -32,6 +33,7 @@
 		1A713E5A28F4588100AEA66B /* HeatMapDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeatMapDemo.swift; sourceTree = "<group>"; };
 		1A713E5C28F4588C00AEA66B /* ScatterPlotDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScatterPlotDemo.swift; sourceTree = "<group>"; };
 		1A713E8028F4CD1600AEA66B /* ChartUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartUtil.swift; sourceTree = "<group>"; };
+		1A713E8228F5FC3500AEA66B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		1A8FD67D28F19621002AF972 /* ChartsDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChartsDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A8FD68028F19621002AF972 /* ChartsDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsDemoApp.swift; sourceTree = "<group>"; };
 		1A8FD68228F19621002AF972 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 		1A8FD67428F19621002AF972 = {
 			isa = PBXGroup;
 			children = (
+				1A713E8228F5FC3500AEA66B /* README.md */,
 				1AA21A8D28F33B1C00EEC534 /* us-census-age-sex-2021.csv */,
 				1A8FD67F28F19621002AF972 /* ChartsDemo */,
 				1A8FD67E28F19621002AF972 /* Products */,
@@ -209,6 +212,7 @@
 			files = (
 				1AA21A8E28F33B1D00EEC534 /* us-census-age-sex-2021.csv in Resources */,
 				1A8FD68828F19621002AF972 /* Preview Assets.xcassets in Resources */,
+				1A713E8328F5FC3500AEA66B /* README.md in Resources */,
 				1A8FD68528F19621002AF972 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
