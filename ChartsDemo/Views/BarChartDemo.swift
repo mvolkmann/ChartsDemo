@@ -51,6 +51,7 @@ struct BarChartDemo: View {
                         .annotation(position: annotationPosition(index)) {
                             annotation
                         }
+                        // Display a red, dashed, vertical line.
                         .foregroundStyle(.red)
                         .lineStyle(.init(
                             lineWidth: 1,
