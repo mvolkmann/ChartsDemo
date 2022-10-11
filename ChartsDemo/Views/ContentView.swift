@@ -2,7 +2,7 @@ import SwiftCSV
 import SwiftUI
 
 struct ContentView: View {
-    @State private var selectedTab = "line"
+    @State private var selectedTab = "bar"
 
     var body: some View {
         TabView(selection: $selectedTab) {

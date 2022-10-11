@@ -6,9 +6,8 @@ struct BarChartDemo: View {
 
     @Environment(\.colorScheme) var colorScheme
 
-    @State private var categoryToTotalMap: [String: Int] = [:]
-    @State private var selectedCategory = ""
-    @State private var selectedTotal = 0
+    @State private var categoryToDataMap: [String: AgeStatistics] = [:]
+    @State private var selectedData: AgeStatistics?
 
     // MARK: - Properties
 
@@ -16,18 +15,24 @@ struct BarChartDemo: View {
 
     private var annotation: some View {
         VStack {
-            Text(selectedCategory)
-            Text("\(selectedTotal)")
+            if let selectedData {
+                Text(selectedData.category)
+                Text("Male: \(selectedData.male)")
+                Text("Female: \(selectedData.female)")
+            }
         }
         .padding(5)
         .background {
-            let fillColor: Color = colorScheme == .light ?
-                .white : Color(.secondarySystemBackground)
-            let myFill = fillColor.shadow(.drop(radius: 3))
             RoundedRectangle(cornerRadius: 5, style: .continuous)
-                .fill(myFill)
+                .fill(annotationFill)
         }
         .foregroundColor(Color(.label))
+    }
+
+    private var annotationFill: some ShapeStyle {
+        let fillColor: Color = colorScheme == .light ?
+            .white : Color(.secondarySystemBackground)
+        return fillColor.shadow(.drop(radius: 3))
     }
 
     var body: some View {
@@ -37,11 +42,18 @@ struct BarChartDemo: View {
 
                 BarMark(
                     x: .value("Age", statistic.category),
-                    y: .value("Total", statistic.total)
+                    y: .value("Male", statistic.male)
                 )
+                .foregroundStyle(by: .value("Male", "Male"))
+                BarMark(
+                    x: .value("Age", statistic.category),
+                    y: .value("Female", statistic.female)
+                )
+                .foregroundStyle(by: .value("Female", "Female"))
 
-                if statistic.category == selectedCategory {
-                    RuleMark(x: .value("Age", selectedCategory))
+                if let data = selectedData,
+                   statistic.category == data.category {
+                    RuleMark(x: .value("Age", statistic.category))
                         .annotation(
                             position: annotationPosition(index)
                         ) {
@@ -56,6 +68,19 @@ struct BarChartDemo: View {
                 }
             }
         }
+        .chartXAxis(.hidden)
+        .chartYAxis {
+            let delta = 1_000_000
+            AxisMarks(values: .stride(by: Double(delta))) {
+                let value = $0.as(Int.self)!
+                AxisGridLine()
+                AxisTick()
+                AxisValueLabel {
+                    Text(value == 0 ? "" : "\(value / delta)M")
+                }
+            }
+            // ChartUtil.yAxisMarks()
+        }
 
         // Leave room for RuleMark annotations.
         .padding(.horizontal, 20)
@@ -65,8 +90,8 @@ struct BarChartDemo: View {
         .chartOverlay { proxy in chartOverlay(proxy: proxy) }
 
         .onAppear {
-            for stat in vm.statistics {
-                categoryToTotalMap[stat.category] = stat.total
+            for statistic in vm.statistics {
+                categoryToDataMap[statistic.category] = statistic
             }
         }
     }
@@ -91,12 +116,10 @@ struct BarChartDemo: View {
                             let location = value.location
                             if let category: String =
                                 proxy.value(atX: location.x) {
-                                selectedCategory = category
-                                selectedTotal =
-                                    categoryToTotalMap[category] ?? 0
+                                selectedData = categoryToDataMap[category]
                             }
                         }
-                        .onEnded { _ in selectedCategory = "" }
+                        .onEnded { _ in selectedData = nil }
                 )
         }
     }
