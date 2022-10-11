@@ -72,9 +72,15 @@ struct LineChartDemo: View {
 
                     LineMark(x: category, y: male)
                         .foregroundStyle(by: .value("Male", "Male"))
-                    // This doesn't work when there are multiple LineMarks
-                    // with the same x value.
+                    // If each statistic object had a gender property
+                    // and only held a value for that gender,
+                    // the previous line would be replaced by this:
+                    // .foregroundStyle(by: .value("Gender", statistic.gender))
+
+                    // We cannot just pass a Color if there are multiple
+                    // LineMarks with the same x value (like below).
                     // .foregroundStyle(Self.maleColor)
+
                     LineMark(x: category, y: female)
                         // .foregroundStyle(by: .value("Female", "Female"))
                         .foregroundStyle(Self.femaleColor)
