@@ -39,16 +39,16 @@ struct BarChartDemo: View {
         Chart {
             ForEach(vm.statistics.indices, id: \.self) { index in
                 let statistic = vm.statistics[index]
-                let x = PlottableValue.value("Age", statistic.category)
+                let category = PlottableValue.value("Age", statistic.category)
 
-                BarMark(x: x, y: .value("Male", statistic.male))
+                BarMark(x: category, y: .value("Male", statistic.male))
                     .foregroundStyle(by: .value("Male", "Male"))
-                BarMark(x: x, y: .value("Female", statistic.female))
+                BarMark(x: category, y: .value("Female", statistic.female))
                     .foregroundStyle(by: .value("Female", "Female"))
 
                 if let data = selectedData,
                    statistic.category == data.category {
-                    RuleMark(x: .value("Age", statistic.category))
+                    RuleMark(x: category)
                         .annotation(
                             position: annotationPosition(index)
                         ) {
@@ -74,12 +74,11 @@ struct BarChartDemo: View {
                     Text(value == 0 ? "" : "\(value / delta)M")
                 }
             }
-            // ChartUtil.yAxisMarks()
         }
 
         // Leave room for RuleMark annotations.
         .padding(.horizontal, 20)
-        .padding(.top, 55)
+        .padding(.top, 70)
 
         // Support tapping on the plot area to see data point details.
         .chartOverlay { proxy in chartOverlay(proxy: proxy) }
