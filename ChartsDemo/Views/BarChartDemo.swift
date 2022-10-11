@@ -36,10 +36,16 @@ struct BarChartDemo: View {
     }
 
     var body: some View {
+        // Adding a ScrollView breaks the ability to drag across the bars
+        // and display an annotation above the current bar.
+        // ScrollView(.horizontal) {
         Chart {
             ForEach(vm.statistics.indices, id: \.self) { index in
                 let statistic = vm.statistics[index]
-                let category = PlottableValue.value("Age", statistic.category)
+                let category = PlottableValue.value(
+                    "Age",
+                    statistic.category
+                )
 
                 BarMark(x: category, y: .value("Male", statistic.male))
                     .foregroundStyle(by: .value("Male", "Male"))
@@ -53,18 +59,20 @@ struct BarChartDemo: View {
                         }
                         // Display a red, dashed, vertical line.
                         .foregroundStyle(.red)
-                        .lineStyle(.init(
-                            lineWidth: 1,
-                            dash: [10],
-                            dashPhase: 5
-                        ))
+                        .lineStyle(StrokeStyle(dash: [10, 5]))
                 }
             }
         }
+
+        // Remove this to see category names below each bar.
         .chartXAxis(.hidden)
+
         .chartYAxis {
             let delta = 1_000_000
-            AxisMarks(values: .stride(by: Double(delta))) {
+            AxisMarks(
+                position: .leading, // moves y-axis from right to left side
+                values: .stride(by: Double(delta))
+            ) {
                 let value = $0.as(Int.self)!
                 AxisGridLine()
                 AxisTick()
@@ -76,7 +84,8 @@ struct BarChartDemo: View {
 
         .chartPlotStyle { plotArea in
             plotArea
-                .frame(height: 400)
+                // Uncomment this when embedding Chart in a ScrollView.
+                // .frame(width: 1000, height: 400)
                 .background(.yellow.opacity(0.2))
         }
 
@@ -92,6 +101,8 @@ struct BarChartDemo: View {
                 categoryToDataMap[statistic.category] = statistic
             }
         }
+        // }
+        // .frame(width: 400)
     }
 
     // MARK: - Methods
@@ -105,14 +116,25 @@ struct BarChartDemo: View {
 
     private func chartOverlay(proxy: ChartProxy) -> some View {
         GeometryReader { geometry in
-            Rectangle()
+            let areaX = geometry[proxy.plotAreaFrame].origin.x
+            return Rectangle()
                 .fill(.clear)
                 .contentShape(Rectangle())
+
+                // Handle tap gestures.
+                .onTapGesture { value in
+                    let x = value.x - areaX
+                    if let category: String = proxy.value(atX: x) {
+                        let data = categoryToDataMap[category]
+                        print("got tap on", data)
+                    }
+                }
+
+                // Handle drag gestures.
                 .gesture(
                     DragGesture()
                         .onChanged { value in
-                            let x = value.location.x -
-                                geometry[proxy.plotAreaFrame].origin.x
+                            let x = value.location.x - areaX
                             if let category: String = proxy.value(atX: x) {
                                 selectedData = categoryToDataMap[category]
                             }

@@ -109,11 +109,7 @@ struct LineChartDemo: View {
                             }
                             // Display a red, dashed, vertical line.
                             .foregroundStyle(.red)
-                            .lineStyle(.init(
-                                lineWidth: 1,
-                                dash: [10],
-                                dashPhase: 5
-                            ))
+                            .lineStyle(StrokeStyle(dash: [10, 5]))
                     }
                 }
 
