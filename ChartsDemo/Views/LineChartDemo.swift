@@ -15,6 +15,8 @@ struct LineChartDemo: View {
 
     // MARK: - Properties
 
+    private static let femaleColor = Color.red
+    private static let maleColor = Color.blue
     private let vm = ViewModel.shared
 
     private var annotation: some View {
@@ -39,8 +41,13 @@ struct LineChartDemo: View {
         return fillColor.shadow(.drop(radius: 3))
     }
 
-    private var average: Double {
-        let sum = vm.statistics.reduce(0) { $0 + $1.total }
+    private var femaleAverage: Double {
+        let sum = vm.statistics.reduce(0) { $0 + $1.female }
+        return Double(sum) / Double(vm.statistics.count - 1)
+    }
+
+    private var maleAverage: Double {
+        let sum = vm.statistics.reduce(0) { $0 + $1.male }
         return Double(sum) / Double(vm.statistics.count - 1)
     }
 
@@ -56,27 +63,38 @@ struct LineChartDemo: View {
             Chart {
                 ForEach(vm.statistics.indices, id: \.self) { index in
                     let statistic = vm.statistics[index]
-                    let x = PlottableValue.value("Age", statistic.category)
-                    let y = PlottableValue.value("Total", statistic.total)
+                    let category = PlottableValue.value(
+                        "Age",
+                        statistic.category
+                    )
+                    let male = PlottableValue.value("Male", statistic.male)
+                    let female = PlottableValue.value("Male", statistic.female)
 
-                    LineMark(x: x, y: .value("Male", statistic.male))
+                    LineMark(x: category, y: male)
                         .foregroundStyle(by: .value("Male", "Male"))
-                    LineMark(x: x, y: .value("Female", statistic.female))
+                    LineMark(x: category, y: female)
                         .foregroundStyle(by: .value("Female", "Female"))
 
                     if showArea {
-                        AreaMark(x: x, y: y)
-                            .foregroundStyle(.yellow.opacity(0.5).gradient)
+                        // Displaying multiple AreaMarks
+                        // for the same x value is not supported.
+                        AreaMark(x: category, y: male)
+                            .foregroundStyle(
+                                Self.maleColor.opacity(0.3)
+                                    .gradient
+                            )
                     }
 
                     if showPoints {
-                        PointMark(x: x, y: y)
-                            .foregroundStyle(.purple)
+                        PointMark(x: category, y: male)
+                            .foregroundStyle(Self.maleColor)
+                        PointMark(x: category, y: female)
+                            .foregroundStyle(Self.femaleColor)
                     }
 
                     if let data = selectedData,
                        statistic.category == data.category {
-                        RuleMark(x: .value("Age", statistic.category))
+                        RuleMark(x: category)
                             .annotation(
                                 position: annotationPosition(index)
                             ) {
@@ -92,8 +110,11 @@ struct LineChartDemo: View {
                 }
 
                 if showAverage {
-                    RuleMark(y: .value("Average", average))
-                        .foregroundStyle(.red)
+                    RuleMark(y: .value("Male Average", maleAverage))
+                        .foregroundStyle(Self.maleColor)
+                        .lineStyle(StrokeStyle(lineWidth: 1, dash: [10]))
+                    RuleMark(y: .value("Female Average", femaleAverage))
+                        .foregroundStyle(Self.femaleColor)
                         .lineStyle(StrokeStyle(lineWidth: 1, dash: [10]))
                 }
             }
