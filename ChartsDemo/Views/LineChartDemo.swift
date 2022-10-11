@@ -117,9 +117,15 @@ struct LineChartDemo: View {
                     RuleMark(y: .value("Male Average", maleAverage))
                         .foregroundStyle(Self.maleColor)
                         .lineStyle(StrokeStyle(lineWidth: 1, dash: [10]))
+                        .annotation(position: .bottom, alignment: .leading) {
+                            Text("Male Average").font(.caption)
+                        }
                     RuleMark(y: .value("Female Average", femaleAverage))
                         .foregroundStyle(Self.femaleColor)
                         .lineStyle(StrokeStyle(lineWidth: 1, dash: [10]))
+                        .annotation(position: .top, alignment: .leading) {
+                            Text("Female Average").font(.caption)
+                        }
                 }
             }
             .chartXAxis(.hidden)
