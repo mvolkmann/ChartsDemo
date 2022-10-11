@@ -39,17 +39,12 @@ struct BarChartDemo: View {
         Chart {
             ForEach(vm.statistics.indices, id: \.self) { index in
                 let statistic = vm.statistics[index]
+                let x = PlottableValue.value("Age", statistic.category)
 
-                BarMark(
-                    x: .value("Age", statistic.category),
-                    y: .value("Male", statistic.male)
-                )
-                .foregroundStyle(by: .value("Male", "Male"))
-                BarMark(
-                    x: .value("Age", statistic.category),
-                    y: .value("Female", statistic.female)
-                )
-                .foregroundStyle(by: .value("Female", "Female"))
+                BarMark(x: x, y: .value("Male", statistic.male))
+                    .foregroundStyle(by: .value("Male", "Male"))
+                BarMark(x: x, y: .value("Female", statistic.female))
+                    .foregroundStyle(by: .value("Female", "Female"))
 
                 if let data = selectedData,
                    statistic.category == data.category {

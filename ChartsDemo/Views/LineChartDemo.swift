@@ -6,9 +6,8 @@ struct LineChartDemo: View {
 
     @Environment(\.colorScheme) var colorScheme
 
-    @State private var categoryToTotalMap: [String: Int] = [:]
-    @State private var selectedCategory = ""
-    @State private var selectedTotal = 0
+    @State private var categoryToDataMap: [String: AgeStatistics] = [:]
+    @State private var selectedData: AgeStatistics?
 
     @State private var showArea = false
     @State private var showAverage = false
@@ -20,18 +19,24 @@ struct LineChartDemo: View {
 
     private var annotation: some View {
         VStack {
-            Text(selectedCategory)
-            Text("\(selectedTotal)")
+            if let selectedData {
+                Text(selectedData.category)
+                Text("Male: \(selectedData.male)")
+                Text("Female: \(selectedData.female)")
+            }
         }
         .padding(5)
         .background {
-            let fillColor: Color = colorScheme == .light ?
-                .white : Color(.secondarySystemBackground)
-            let myFill = fillColor.shadow(.drop(radius: 3))
             RoundedRectangle(cornerRadius: 5, style: .continuous)
-                .fill(myFill)
+                .fill(annotationFill)
         }
         .foregroundColor(Color(.label))
+    }
+
+    private var annotationFill: some ShapeStyle {
+        let fillColor: Color = colorScheme == .light ?
+            .white : Color(.secondarySystemBackground)
+        return fillColor.shadow(.drop(radius: 3))
     }
 
     private var average: Double {
@@ -53,7 +58,11 @@ struct LineChartDemo: View {
                     let statistic = vm.statistics[index]
                     let x = PlottableValue.value("Age", statistic.category)
                     let y = PlottableValue.value("Total", statistic.total)
-                    LineMark(x: x, y: y)
+
+                    LineMark(x: x, y: .value("Male", statistic.male))
+                        .foregroundStyle(by: .value("Male", "Male"))
+                    LineMark(x: x, y: .value("Female", statistic.female))
+                        .foregroundStyle(by: .value("Female", "Female"))
 
                     if showArea {
                         AreaMark(x: x, y: y)
@@ -65,8 +74,9 @@ struct LineChartDemo: View {
                             .foregroundStyle(.purple)
                     }
 
-                    if statistic.category == selectedCategory {
-                        RuleMark(x: .value("Age", selectedCategory))
+                    if let data = selectedData,
+                       statistic.category == data.category {
+                        RuleMark(x: .value("Age", statistic.category))
                             .annotation(
                                 position: annotationPosition(index)
                             ) {
@@ -108,8 +118,8 @@ struct LineChartDemo: View {
             .chartOverlay { proxy in chartOverlay(proxy: proxy) }
 
             .onAppear {
-                for stat in vm.statistics {
-                    categoryToTotalMap[stat.category] = stat.total
+                for statistic in vm.statistics {
+                    categoryToDataMap[statistic.category] = statistic
                 }
             }
         }
@@ -135,12 +145,10 @@ struct LineChartDemo: View {
                             let location = value.location
                             if let category: String =
                                 proxy.value(atX: location.x) {
-                                selectedCategory = category
-                                selectedTotal =
-                                    categoryToTotalMap[category] ?? 0
+                                selectedData = categoryToDataMap[category]
                             }
                         }
-                        .onEnded { _ in selectedCategory = "" }
+                        .onEnded { _ in selectedData = nil }
                 )
         }
     }
