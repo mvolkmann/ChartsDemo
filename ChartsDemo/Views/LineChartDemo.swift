@@ -72,8 +72,12 @@ struct LineChartDemo: View {
 
                     LineMark(x: category, y: male)
                         .foregroundStyle(by: .value("Male", "Male"))
+                    // This doesn't work when there are multiple LineMarks
+                    // with the same x value.
+                    // .foregroundStyle(Self.maleColor)
                     LineMark(x: category, y: female)
-                        .foregroundStyle(by: .value("Female", "Female"))
+                        // .foregroundStyle(by: .value("Female", "Female"))
+                        .foregroundStyle(Self.femaleColor)
 
                     if showArea {
                         // Displaying multiple AreaMarks
