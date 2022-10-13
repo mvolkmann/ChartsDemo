@@ -17,44 +17,8 @@ struct HeatMapDemo: View {
         Chart {
             ForEach(vm.statistics.indices, id: \.self) { index in
                 let statistic = vm.statistics[index]
-
-                Plot {
-                    RectangleMark(
-                        /*
-                          xStart: PlottableValue.value("xStart", 0),
-                          xEnd: PlottableValue.value("xEnd", 1),
-                          yStart: PlottableValue.value("yStart", index),
-                          yEnd: PlottableValue.value("yEnd", index + 1)
-                         */
-                        x: .value("Gender", "Male"),
-                        y: .value("Category", statistic.category),
-                        width: .ratio(1),
-                        height: .ratio(1)
-                    )
-                    .foregroundStyle(by: .value("Count", statistic.male))
-                }
-                // .accessibilityLabel("Male \(statistic.category)")
-                // .accessibilityValue("\(statistic.male)")
-                // .accessibilityHidden(false)
-
-                Plot {
-                    RectangleMark(
-                        /*
-                         xStart: PlottableValue.value("xStart", 1),
-                         xEnd: PlottableValue.value("xEnd", 2),
-                         yStart: PlottableValue.value("yStart", index),
-                         yEnd: PlottableValue.value("yEnd", index + 1)
-                         */
-                        x: .value("Gender", "Female"),
-                        y: .value("Category", statistic.category),
-                        width: .ratio(1),
-                        height: .ratio(1)
-                    )
-                    .foregroundStyle(by: .value("Count", statistic.female))
-                }
-                // .accessibilityLabel("Female \(statistic.category)")
-                // .accessibilityValue("\(statistic.female)")
-                // .accessibilityHidden(false)
+                mark(statistic: statistic, isMale: true)
+                mark(statistic: statistic, isMale: false)
             }
         }
 
@@ -84,6 +48,34 @@ struct HeatMapDemo: View {
     }
 
     // MARK: - Methods
+
+    private func mark(
+        statistic: AgeStatistics,
+        isMale: Bool
+    ) -> some ChartContent {
+        let label = isMale ? "Male" : "Female"
+        let value = isMale ? statistic.male : statistic.female
+        return Plot {
+            RectangleMark(
+                // This approach loses the x-axis labels.
+                /*
+                 xStart: PlottableValue.value("xStart", 0),
+                 xEnd: PlottableValue.value("xEnd", 1),
+                 yStart: PlottableValue.value("yStart", index),
+                 yEnd: PlottableValue.value("yEnd", index + 1)
+                 */
+
+                x: .value("Gender", label),
+                y: .value("Category", statistic.category),
+                width: .ratio(1),
+                height: .ratio(1)
+            )
+            .foregroundStyle(by: .value("Count", value))
+        }
+        .accessibilityLabel("\(label) \(statistic.category)")
+        .accessibilityValue("\(value)")
+        .accessibilityHidden(false)
+    }
 }
 
 struct HeatMapDemo_Previews: PreviewProvider {
