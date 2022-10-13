@@ -15,8 +15,8 @@ struct LineChartDemo: View {
 
     // MARK: - Properties
 
-    private static let femaleColor = Color.red
-    private static let maleColor = Color.blue
+    private let femaleColor = Color.red
+    private let maleColor = Color.blue
     private let vm = ViewModel.shared
 
     private var annotation: some View {
@@ -77,29 +77,25 @@ struct LineChartDemo: View {
                     // the previous line would be replaced by this:
                     // .foregroundStyle(by: .value("Gender", statistic.gender))
 
-                    // We cannot just pass a Color if there are multiple
-                    // LineMarks with the same x value (like below).
-                    // .foregroundStyle(Self.maleColor)
-
                     LineMark(x: category, y: female)
-                        // .foregroundStyle(by: .value("Female", "Female"))
-                        .foregroundStyle(Self.femaleColor)
+                        .foregroundStyle(by: .value("Female", "Female"))
 
                     if showArea {
                         // Displaying multiple AreaMarks
                         // for the same x value is not supported.
                         AreaMark(x: category, y: male)
                             .foregroundStyle(
-                                Self.maleColor.opacity(0.3)
-                                    .gradient
+                                maleColor.opacity(0.3).gradient
                             )
                     }
 
                     if showPoints {
                         PointMark(x: category, y: male)
-                            .foregroundStyle(Self.maleColor)
+                            .foregroundStyle(maleColor)
+                            .symbol(by: .value("Gender", "Male"))
                         PointMark(x: category, y: female)
-                            .foregroundStyle(Self.femaleColor)
+                            .foregroundStyle(femaleColor)
+                            .symbol(by: .value("Gender", "Female"))
                     }
 
                     if statistic.category == selectedData?.category {
@@ -115,13 +111,13 @@ struct LineChartDemo: View {
 
                 if showAverage {
                     RuleMark(y: .value("Male Average", maleAverage))
-                        .foregroundStyle(Self.maleColor)
+                        .foregroundStyle(maleColor)
                         .lineStyle(StrokeStyle(lineWidth: 1, dash: [10]))
                         .annotation(position: .bottom, alignment: .leading) {
                             Text("Male Average").font(.caption)
                         }
                     RuleMark(y: .value("Female Average", femaleAverage))
-                        .foregroundStyle(Self.femaleColor)
+                        .foregroundStyle(femaleColor)
                         .lineStyle(StrokeStyle(lineWidth: 1, dash: [10]))
                         .annotation(position: .top, alignment: .leading) {
                             Text("Female Average").font(.caption)
@@ -140,6 +136,10 @@ struct LineChartDemo: View {
                     }
                 }
             }
+            .chartForegroundStyleScale([
+                "Male": maleColor,
+                "Female": femaleColor,
+            ])
 
             // Leave room for RuleMark annotations.
             .padding(.horizontal, 20)

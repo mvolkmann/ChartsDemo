@@ -16,20 +16,15 @@ struct HeatMapDemo: View {
     var body: some View {
         Chart {
             ForEach(vm.statistics.indices, id: \.self) { index in
-                let xVal = 0
-                let yVal = index
+                let foo = print("index = \(index)")
                 let statistic = vm.statistics[index]
-                let category = PlottableValue.value(
-                    "Age",
-                    statistic.category
-                )
 
                 Plot {
                     RectangleMark(
-                        xStart: PlottableValue.value("xStart", xVal),
-                        xEnd: PlottableValue.value("xEnd", xVal + 1),
-                        yStart: PlottableValue.value("yStart", yVal),
-                        yEnd: PlottableValue.value("yEnd", yVal + 1)
+                        xStart: PlottableValue.value("xStart", 0),
+                        xEnd: PlottableValue.value("xEnd", 1),
+                        yStart: PlottableValue.value("yStart", index),
+                        yEnd: PlottableValue.value("yEnd", index + 1)
                     )
                     .foregroundStyle(by: .value("Count", statistic.male))
                 }
@@ -39,10 +34,10 @@ struct HeatMapDemo: View {
 
                 Plot {
                     RectangleMark(
-                        xStart: PlottableValue.value("xStart", xVal + 1),
-                        xEnd: PlottableValue.value("xEnd", xVal + 2),
-                        yStart: PlottableValue.value("yStart", yVal),
-                        yEnd: PlottableValue.value("yEnd", yVal + 1)
+                        xStart: PlottableValue.value("xStart", 1),
+                        xEnd: PlottableValue.value("xEnd", 2),
+                        yStart: PlottableValue.value("yStart", index),
+                        yEnd: PlottableValue.value("yEnd", index + 1)
                     )
                     .foregroundStyle(by: .value("Count", statistic.female))
                 }
@@ -54,20 +49,6 @@ struct HeatMapDemo: View {
         .chartForegroundStyleScale(
             range: Gradient(colors: Self.gradientColors)
         )
-        /*
-         .chartYAxis {
-              let delta = 1_000_000
-              AxisMarks(values: .stride(by: Double(delta))) {
-                  let value = $0.as(Int.self)!
-                  let foo = print("value = \(value)")
-                  AxisGridLine()
-                  AxisTick()
-                  AxisValueLabel {
-                      Text(value == 0 ? "" : "\(value / delta)M")
-                  }
-              }
-         }
-              */
         .chartXAxis {
             AxisMarks { value in
                 AxisGridLine()
@@ -78,6 +59,21 @@ struct HeatMapDemo: View {
                             value.index == 1 ? "Female" :
                             ""
                     )
+                }
+            }
+        }
+        .chartYAxis {
+            // let delta = 1_000_000
+            // AxisMarks(values: .stride(by: Double(delta))) { _ in
+            // We have 18 categories and rows of RectangleMarks.
+            // Why don't we get 18 values here?  We only get 5!
+            AxisMarks { value in
+                AxisGridLine()
+                AxisTick()
+                AxisValueLabel {
+                    let foo = print("value =", value)
+                    // Text(value == 0 ? "" : "\(value / delta)M")
+                    Text("\(value.index)")
                 }
             }
         }

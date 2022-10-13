@@ -11,8 +11,8 @@ struct ScatterPlotDemo: View {
 
     // MARK: - Properties
 
-    private static let femaleColor = Color.red
-    private static let maleColor = Color.blue
+    private let femaleColor = Color.red
+    private let maleColor = Color.blue
 
     private let vm = ViewModel.shared
 
@@ -50,10 +50,10 @@ struct ScatterPlotDemo: View {
                 let female = PlottableValue.value("Male", statistic.female)
 
                 PointMark(x: category, y: male)
-                    .foregroundStyle(Self.maleColor)
+                    .foregroundStyle(maleColor)
 
                 PointMark(x: category, y: female)
-                    .foregroundStyle(Self.femaleColor)
+                    .foregroundStyle(femaleColor)
 
                 if statistic.category == selectedData?.category {
                     RuleMark(x: category)

@@ -48,9 +48,11 @@ struct BarChartDemo: View {
                 )
 
                 BarMark(x: category, y: .value("Male", statistic.male))
-                    .foregroundStyle(by: .value("Male", "Male"))
+                    .foregroundStyle(by: .value("Gender", "Male"))
+                // .position(by: .value("Gender", "Male"))
                 BarMark(x: category, y: .value("Female", statistic.female))
-                    .foregroundStyle(by: .value("Female", "Female"))
+                    .foregroundStyle(by: .value("Gender", "Female"))
+                // .position(by: .value("Gender", "Female"))
 
                 if statistic.category == selectedData?.category {
                     RuleMark(x: category)
