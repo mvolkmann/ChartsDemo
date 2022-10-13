@@ -16,15 +16,20 @@ struct HeatMapDemo: View {
     var body: some View {
         Chart {
             ForEach(vm.statistics.indices, id: \.self) { index in
-                let foo = print("index = \(index)")
                 let statistic = vm.statistics[index]
 
                 Plot {
                     RectangleMark(
-                        xStart: PlottableValue.value("xStart", 0),
-                        xEnd: PlottableValue.value("xEnd", 1),
-                        yStart: PlottableValue.value("yStart", index),
-                        yEnd: PlottableValue.value("yEnd", index + 1)
+                        /*
+                          xStart: PlottableValue.value("xStart", 0),
+                          xEnd: PlottableValue.value("xEnd", 1),
+                          yStart: PlottableValue.value("yStart", index),
+                          yEnd: PlottableValue.value("yEnd", index + 1)
+                         */
+                        x: .value("Gender", "Male"),
+                        y: .value("Category", statistic.category),
+                        width: .ratio(1),
+                        height: .ratio(1)
                     )
                     .foregroundStyle(by: .value("Count", statistic.male))
                 }
@@ -34,10 +39,16 @@ struct HeatMapDemo: View {
 
                 Plot {
                     RectangleMark(
-                        xStart: PlottableValue.value("xStart", 1),
-                        xEnd: PlottableValue.value("xEnd", 2),
-                        yStart: PlottableValue.value("yStart", index),
-                        yEnd: PlottableValue.value("yEnd", index + 1)
+                        /*
+                         xStart: PlottableValue.value("xStart", 1),
+                         xEnd: PlottableValue.value("xEnd", 2),
+                         yStart: PlottableValue.value("yStart", index),
+                         yEnd: PlottableValue.value("yEnd", index + 1)
+                         */
+                        x: .value("Gender", "Female"),
+                        y: .value("Category", statistic.category),
+                        width: .ratio(1),
+                        height: .ratio(1)
                     )
                     .foregroundStyle(by: .value("Count", statistic.female))
                 }
@@ -46,37 +57,29 @@ struct HeatMapDemo: View {
                 // .accessibilityHidden(false)
             }
         }
+
+        .padding(.leading, 60) // leaves room for y-axis labels
+        .padding(.trailing, 20)
+
         .chartForegroundStyleScale(
             range: Gradient(colors: Self.gradientColors)
         )
-        .chartXAxis {
-            AxisMarks { value in
-                AxisGridLine()
-                AxisTick()
-                AxisValueLabel(centered: true) {
-                    Text(
-                        value.index == 0 ? "Male" :
-                            value.index == 1 ? "Female" :
-                            ""
-                    )
-                }
-            }
-        }
-        .chartYAxis {
-            // let delta = 1_000_000
-            // AxisMarks(values: .stride(by: Double(delta))) { _ in
-            // We have 18 categories and rows of RectangleMarks.
-            // Why don't we get 18 values here?  We only get 5!
-            AxisMarks { value in
-                AxisGridLine()
-                AxisTick()
-                AxisValueLabel {
-                    let foo = print("value =", value)
-                    // Text(value == 0 ? "" : "\(value / delta)M")
-                    Text("\(value.index)")
-                }
-            }
-        }
+
+        .chartYAxis(.hidden)
+        // This changes the rectangle heights so they
+        // no longer cover the entire plot area.
+        /*
+         .chartYAxis {
+             AxisMarks { _ in
+                 AxisGridLine()
+                 AxisTick()
+                 // Oddly .trailing causes the labels to be
+                 // displayed on the leading edge of the chart.
+                 AxisValueLabel(anchor: .trailing)
+             }
+         }
+         */
+
         .frame(height: 500)
     }
 
