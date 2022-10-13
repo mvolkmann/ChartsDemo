@@ -78,6 +78,8 @@ struct BarChartDemo: View {
                 let value = $0.as(Int.self)!
                 AxisGridLine()
                 AxisTick()
+                // Formats y-axis labels to be a number of millions
+                // followed by the letter M.
                 AxisValueLabel {
                     Text(value == 0 ? "" : "\(value / delta)M")
                 }
