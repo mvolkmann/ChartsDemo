@@ -8,6 +8,7 @@ struct BarChartDemo: View {
 
     @State private var categoryToDataMap: [String: AgeStatistics] = [:]
     @State private var selectedData: AgeStatistics?
+    @State private var show: [Bool] = []
 
     // MARK: - Properties
 
@@ -47,10 +48,15 @@ struct BarChartDemo: View {
                     statistic.category
                 )
 
-                BarMark(x: category, y: .value("Male", statistic.male))
+                let shouldShow = index < show.count && show[index] == true
+
+                let maleValue = shouldShow ? statistic.male : 0
+                BarMark(x: category, y: .value("Male", maleValue))
                     .foregroundStyle(by: .value("Gender", "Male"))
                 // .position(by: .value("Gender", "Male"))
-                BarMark(x: category, y: .value("Female", statistic.female))
+
+                let femaleValue = shouldShow ? statistic.female : 0
+                BarMark(x: category, y: .value("Female", femaleValue))
                     .foregroundStyle(by: .value("Gender", "Female"))
                 // .position(by: .value("Gender", "Female"))
 
@@ -104,12 +110,30 @@ struct BarChartDemo: View {
             for statistic in vm.statistics {
                 categoryToDataMap[statistic.category] = statistic
             }
+            animateChart()
         }
-        // }
-        // .frame(width: 400)
     }
 
     // MARK: - Methods
+
+    private func animateChart() {
+        show = []
+        for index in vm.statistics.indices {
+            // Delay rendering each data point a bit longer than the previous one.
+            DispatchQueue.main.asyncAfter(
+                deadline: .now() + Double(index) * 0.05
+            ) {
+                let spring = 0.5
+                withAnimation(.interactiveSpring(
+                    response: spring,
+                    dampingFraction: spring,
+                    blendDuration: spring
+                )) {
+                    show.append(true)
+                }
+            }
+        }
+    }
 
     private func annotationPosition(_ index: Int) -> AnnotationPosition {
         let percent = Double(index) / Double(vm.statistics.count)
