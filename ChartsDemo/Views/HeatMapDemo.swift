@@ -29,7 +29,8 @@ struct HeatMapDemo: View {
             range: Gradient(colors: Self.gradientColors)
         )
 
-        .chartYAxis(.hidden)
+        // .chartYAxis(.hidden)
+
         // This changes the rectangle heights so they
         // no longer cover the entire plot area.
         /*
@@ -39,10 +40,22 @@ struct HeatMapDemo: View {
                  AxisTick()
                  // Oddly .trailing causes the labels to be
                  // displayed on the leading edge of the chart.
-                 AxisValueLabel(anchor: .trailing)
+                 AxisValueLabel(anchor: .topTrailing)
              }
          }
          */
+
+        .chartYAxis {
+            AxisMarks(values: .automatic(
+                desiredCount: vm.statistics.count,
+                roundLowerBound: false,
+                roundUpperBound: false
+            )) { _ in
+                AxisGridLine()
+                AxisTick()
+                AxisValueLabel(centered: true)
+            }
+        }
 
         .frame(height: 500)
     }

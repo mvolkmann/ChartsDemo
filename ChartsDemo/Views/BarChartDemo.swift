@@ -145,18 +145,20 @@ struct BarChartDemo: View {
     private func chartOverlay(proxy: ChartProxy) -> some View {
         GeometryReader { geometry in
             let areaX = geometry[proxy.plotAreaFrame].origin.x
-            return Rectangle()
+            Rectangle()
                 .fill(.clear)
                 .contentShape(Rectangle())
 
-                // Handle tap gestures.
-                .onTapGesture { value in
-                    let x = value.x - areaX
-                    if let category: String = proxy.value(atX: x) {
-                        let data = categoryToDataMap[category]
-                        print("got tap on", data)
-                    }
-                }
+                /*
+                 // Handle tap gestures.
+                 .onTapGesture { value in
+                     let x = value.x - areaX
+                     if let category: String = proxy.value(atX: x) {
+                         let data = categoryToDataMap[category]
+                         print("got tap on", data)
+                     }
+                 }
+                 */
 
                 // Handle drag gestures.
                 .gesture(
